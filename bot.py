@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from rag import send_to_exaone
+import asyncio
 
 load_dotenv(override=True)
 
@@ -72,7 +73,7 @@ async def on_member_join(member):
 
 @client.command()
 async def rise(ctx, *, message):
-    
+
     if message.startswith("확인"):
         await ctx.send("""RISE에 오신것을환영합니다\n 여기서 즐겁게 게임하시고\n 잘지내시길 바라겠습니다~""")
         role = discord.utils.get(ctx.guild.roles, name="배생아")
@@ -96,8 +97,9 @@ async def rise(ctx, *, message):
                 print(f"Failed to remove role: {e}")
 
     elif message.strip():
-        response = send_to_exaone(message)
-        await ctx.send(response)
+        async with ctx.typing():
+            response = await asyncio.to_thread(send_to_exaone, message)
 
+        await ctx.send(content=response)
 
 client.run(TOKEN)
