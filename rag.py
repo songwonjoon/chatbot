@@ -16,7 +16,10 @@ documents = loader.load()
 db = FAISS.from_documents(documents, embeddings)
 retriever = db.as_retriever()
 
-llm = OllamaLLM(model="exaone3.5")
+llm = OllamaLLM(
+    model="exaone3.5",
+    base_url="http://host.docker.internal:11434"
+)
 
 # 5. 사용자 프롬프트 템플릿 (한국어 시스템 명시)
 prompt_template = """
