@@ -7,7 +7,7 @@ from langchain.prompts import PromptTemplate
 
 embeddings = HuggingFaceEmbeddings(
     model_name="jhgan/ko-sroberta-nli",
-    model_kwargs={"device": "mps"}
+    model_kwargs={"device": "cpu"}
 )
 
 loader = DirectoryLoader('./document', glob="*.txt", loader_cls=TextLoader)
